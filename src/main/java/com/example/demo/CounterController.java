@@ -37,9 +37,11 @@ public class CounterController {
 	
 	//追加ボタンを押下　→　新しい入力項目を表示する
 	@PostMapping(value = "/home/edit", params="add")//paramsはbuttonタグのname属性
-	public String addList(@ModelAttribute MerchandiseList ml, Model model, @RequestParam("money")Integer money) {
+	public String addList(@ModelAttribute MerchandiseList ml, Model model,
+			@RequestParam("money")Integer money,@RequestParam("m_name")String name,@RequestParam("m_price")Integer price ) {
 		ml.addList();
 		model.addAttribute("m2", "所持金は"+money+"円です");
+		model.addAttribute("m3", name+"("+price+")"+"が追加されました．");
 		return "home";
 	}
 	

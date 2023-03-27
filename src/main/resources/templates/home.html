@@ -12,6 +12,25 @@
 		<p th:text="${m1}" class="money"></p>
 		所持金　<input type="number" th:field="*{money}">
 		<button type="submit" name="money_edit">決定</button>
+		商品を追加
+		<table>
+			<thead>
+				<tr>
+					<th>商品名</th>
+					<th>値段</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<input type="text" name="m_name">
+					</td>
+					<td>
+						<input type="number" name="m_price">
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		
 		<table>
 			<thead>
@@ -37,6 +56,7 @@
 		<button type="submit" name="add">追加</button>
 	</form>
 	<p th:text="${m2}" class="money"></p>
+	<p th:text="${m3}" class="merchandise_add"></p>
 	
 	
 </body>
