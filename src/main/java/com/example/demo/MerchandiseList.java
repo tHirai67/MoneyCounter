@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class MerchandiseList {
-	private String money;
+	private Integer money;
 	private List<Merchandise> merchandises;
 	
 	//新しい記入欄を追加

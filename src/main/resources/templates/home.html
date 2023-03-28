@@ -11,15 +11,10 @@
 	<form method="post" th:action="@{/home/edit}" th:object="${merchandiseList}">
 		<p th:text="${m1}" class="money"></p>
 		所持金　<input type="number" th:field="*{money}">
-		<button type="submit" name="money_edit">決定</button>
+		<button type="submit" name="money_edit">決定</button><br>
+		
 		商品を追加
 		<table>
-			<thead>
-				<tr>
-					<th>商品名</th>
-					<th>値段</th>
-				</tr>
-			</thead>
 			<tbody>
 				<tr>
 					<td>
@@ -32,7 +27,11 @@
 			</tbody>
 		</table>
 		
-		<table>
+		<button type="submit" name="add">追加</button>
+	
+		<p th:text="${m2}" class="money"></p>
+		<p th:text="${m3}" class="merchandise_add"></p>
+		<table class="merchandiseListTable">
 			<thead>
 				<tr>
 					<th>商品名</th>
@@ -41,23 +40,13 @@
 			</thead>
 			<tbody>
 				<tr th:each="merchandise, mStat : *{merchandises}">
-					<td>
-						<input type="text" th:field="*{merchandises[__${mStat.index}__].name}">
-					</td>
-					<td>
-						<input type="text" th:field="*{merchandises[__${mStat.index}__].price}">
-					</td>
-					<td>
-						<button type="submit" name="remove" th:value="${mStat.index}">削除</button>
-					</td>
+					<td th:text="*{merchandises[__${mStat.index}__].name}"></td>
+					<td th:text="*{merchandises[__${mStat.index}__].price}"></td>
+					<td><button type="submit" name="remove" th:value="${mStat.index}">削除</button></td>
 				</tr>
 			</tbody>
+			
 		</table>
-		<button type="submit" name="add">追加</button>
 	</form>
-	<p th:text="${m2}" class="money"></p>
-	<p th:text="${m3}" class="merchandise_add"></p>
-	
-	
 </body>
 </html>

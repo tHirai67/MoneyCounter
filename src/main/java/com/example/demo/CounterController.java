@@ -16,14 +16,10 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class CounterController {
-	
+	List<Merchandise> list = new ArrayList<Merchandise>();
 	
 	@GetMapping(value = "/home")
 	public String load(@ModelAttribute MerchandiseList ml, Model model) {
-		List<Merchandise> list = new ArrayList<Merchandise>();
-		Merchandise merchandise = new Merchandise();
-		list.add(merchandise);
-		ml.setMerchandises(list);
 		model.addAttribute("m1", "所持金を入力してください");
 		
 		return "home";
@@ -31,6 +27,7 @@ public class CounterController {
 	
 	@PostMapping(value = "/home/edit", params="money_edit")
 	public String editMoney(@ModelAttribute MerchandiseList ml, Model model, @RequestParam("money")Integer money) {
+		//Error処理
 		model.addAttribute("m2", "所持金は"+money+"円です");
 		return "home";
 	}
@@ -39,7 +36,12 @@ public class CounterController {
 	@PostMapping(value = "/home/edit", params="add")//paramsはbuttonタグのname属性
 	public String addList(@ModelAttribute MerchandiseList ml, Model model,
 			@RequestParam("money")Integer money,@RequestParam("m_name")String name,@RequestParam("m_price")Integer price ) {
-		ml.addList();
+		
+		Merchandise merchandise = new Merchandise();
+		merchandise.setName(name);
+		merchandise.setPrice(price);
+		list.add(merchandise);
+		ml.setMerchandises(list);
 		model.addAttribute("m2", "所持金は"+money+"円です");
 		model.addAttribute("m3", name+"("+price+")"+"が追加されました．");
 		return "home";
