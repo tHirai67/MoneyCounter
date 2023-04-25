@@ -17,48 +17,63 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class CounterController {
 	List<Merchandise> list = new ArrayList<Merchandise>();
-	Integer Money = 0;
+	Integer money = 0;
 	
 	@GetMapping(value = "/home")
 	public String load(@ModelAttribute MerchandiseList ml, Model model) {
-		model.addAttribute("m1", "所持金を入力してください");
+		if(money == 0) {
+			model.addAttribute("m1", "所持金を入力してください");
+		}else{
+			model.addAttribute("m2", "所持金は"+money+"円です");
+		}
+	
+		Integer sumPrice = 0;
+		//listに格納されていたら表示
+		if(list.size() != 0) {
+			ml.setMerchandises(list);
+			
+			for(Merchandise merchandise : list ) {
+				 sumPrice += merchandise.getPrice(); 
+			}
+		}
+		model.addAttribute("m4","合計金額は" + sumPrice + "円です！");
+		
 		
 		return "home";
 	}
 	
 	@PostMapping(value = "/home/edit", params="money_edit")
-	public String editMoney(@ModelAttribute MerchandiseList ml, Model model, @RequestParam(name = "money", required=false)Integer money) {
+	public String editMoney(@ModelAttribute MerchandiseList ml, Model model, @RequestParam(name = "money", required=false)Integer m) {
+		//所持金の表示
 		if(money != null) {
-			Money = money;
+			money = m;
 		}
-		model.addAttribute("m2", "所持金は"+Money+"円です");
-		return "home";
+		
+		return "redirect:/home";
 	}
 	
 	//追加ボタンを押下　→　新しい入力項目を表示する
 	@PostMapping(value = "/home/edit", params="add")//paramsはbuttonタグのname属性
 	public String addList(@ModelAttribute MerchandiseList ml, Model model,
-			@RequestParam(name = "money", required=false)Integer money,@RequestParam("m_name")String name,@RequestParam("m_price")Integer price ) {
+			@RequestParam("m_name")String name,@RequestParam("m_price")Integer price ) {
 		
+		//入力をistに追加
 		Merchandise merchandise = new Merchandise();
 		merchandise.setName(name);
 		merchandise.setPrice(price);
 		list.add(merchandise);
-		ml.setMerchandises(list);
-		model.addAttribute("m2", "所持金は"+Money+"円です");
 		model.addAttribute("m3", name+"("+price+")"+"が追加されました．");
-		return "home";
+		return "redirect:/home";
 	}
 	
 	//削除ボタンを押下
 	@PostMapping(value = "/home/edit", params="remove")
-	public String removeList(@ModelAttribute MerchandiseList ml, Model model, HttpServletRequest request, @RequestParam(name = "money", required=false)Integer money) {
+	public String removeList(@ModelAttribute MerchandiseList ml, Model model, HttpServletRequest request) {
 		//削除ボタンを押した行番号を取得
 		int index = Integer.valueOf(request.getParameter("remove"));
 		//削除
-		ml.removeList(index);
-		model.addAttribute("m2", "所持金は"+Money+"円です");
-		return "home";
+		list.remove(index);
+		return "redirect:/home";
 	}
 	
 	
