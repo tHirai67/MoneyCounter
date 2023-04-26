@@ -9,29 +9,26 @@
 	
 	<h1>買い物計算アプリ</h1>
 	<form method="post" th:action="@{/home/edit}" th:object="${merchandiseList}">
-		<p th:text="${m1}" class="money"></p>
-		所持金　<input type="number" th:field="*{money}">
+		<p th:text="${money}" class="money"></p>
+		<p th:text="${status}" class="money"></p>
+		○所持金
+		<input type="number" th:field="*{money}">
 		<button type="submit" name="money_edit">決定</button><br>
+		<p th:text="${m2}" class="money"></p>
 		
-		商品を追加
+		○商品を追加
 		<table>
 			<tbody>
 				<tr>
-					<td>
-						<input type="text" name="m_name">
-					</td>
-					<td>
-						<input type="number" name="m_price">
-					</td>
+					<td><input type="text" name="name"></td>
+					<td><input type="number" name="price"></td>
+					<td><button type="submit" name="add">追加</button></td>
 				</tr>
 			</tbody>
 		</table>
 		
-		<button type="submit" name="add">追加</button>
-	
-		<p th:text="${m2}" class="money"></p>
-		<p th:text="${m3}" class="merchandise_add"></p>
-		<table class="merchandiseListTable">
+		
+		<table class="merchandiseListTable" th:if="${not #lists.isEmpty(merchandiseList.merchandises)}">
 			<thead>
 				<tr>
 					<th>商品名</th>
@@ -47,7 +44,7 @@
 			</tbody>
 			
 		</table>
-		<p th:text="${m4}" class="sum_price"></p>
+		<p th:text="${sum_price}" class="sum_price"></p>
 	</form>
 </body>
 </html>
