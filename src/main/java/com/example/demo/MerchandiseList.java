@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class MerchandiseList {
+	
 	private Integer money;
 	private List<Merchandise> merchandises;
 	

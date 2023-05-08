@@ -3,32 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>買い物計算アプリ</title>
-<link th:href="@{style.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/style.css}" rel="stylesheet" type="text/css">
+
 </head>
 <body>
-	
+
 	<h1>買い物計算アプリ</h1>
 	<form method="post" th:action="@{/home/edit}" th:object="${merchandiseList}">
 		<p th:text="${money}" class="money"></p>
 		<p th:text="${status}" class="money"></p>
-		○所持金
-		<input type="number" th:field="*{money}">
-		<button type="submit" name="money_edit">決定</button><br>
-		<p th:text="${m2}" class="money"></p>
+		
+		
+		○所持金 <span th:if="${validationMoney}" th:text="'*' + ${validationMoney} + '*'"></span><br>
+		<input type="number" name="money" th:field="*{money}">
+		<button type="submit" name="money_edit" id="money_edit">決定</button>
+		<br>
 		
 		○商品を追加
 		<table>
 			<tbody>
 				<tr>
-					<td><input type="text" name="name"></td>
-					<td><input type="number" name="price"></td>
-					<td><button type="submit" name="add">追加</button></td>
+					<td><input type="text" name="name" id="name"></td>
+					<td><input type="number" name="price" id="price"></td>
+					<td><button type="submit" name="add" id="add">追加</button></td>
 				</tr>
 			</tbody>
 		</table>
 		
-		
-		<table class="merchandiseListTable" th:if="${not #lists.isEmpty(merchandiseList.merchandises)}">
+		<table>
+	        <tr th:if="${validationMerchandise}" th:each="error : ${validationMerchandise}">
+	            <td th:text="${error}"></td>
+	        </tr>
+    	</table>
+	
+
+		<table class="merchandiseListTable"
+			th:if="${not #lists.isEmpty(merchandiseList.merchandises)}">
 			<thead>
 				<tr>
 					<th>商品名</th>
@@ -42,9 +52,11 @@
 					<td><button type="submit" name="remove" th:value="${mStat.index}">削除</button></td>
 				</tr>
 			</tbody>
-			
+
 		</table>
 		<p th:text="${sum_price}" class="sum_price"></p>
+		<p th:text="${balance}" class="balance"></p>
 	</form>
+	<script th:src="@{/script.js}" type="text/javascript"></script>
 </body>
 </html>
