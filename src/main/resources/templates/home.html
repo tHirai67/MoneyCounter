@@ -7,56 +7,85 @@
 
 </head>
 <body>
-
-	<h1>買い物計算アプリ</h1>
-	<form method="post" th:action="@{/home/edit}" th:object="${merchandiseList}">
-		<p th:text="${money}" class="money"></p>
-		<p th:text="${status}" class="money"></p>
-		
-		
-		○所持金 <span th:if="${validationMoney}" th:text="'*' + ${validationMoney} + '*'"></span><br>
-		<input type="number" name="money" th:field="*{money}">
-		<button type="submit" name="money_edit" id="money_edit">決定</button>
-		<br>
-		
-		○商品を追加
-		<table>
-			<tbody>
-				<tr>
-					<td><input type="text" name="name" id="name"></td>
-					<td><input type="number" name="price" id="price"></td>
-					<td><button type="submit" name="add" id="add">追加</button></td>
-				</tr>
-			</tbody>
-		</table>
-		
-		<table>
-	        <tr th:if="${validationMerchandise}" th:each="error : ${validationMerchandise}">
-	            <td th:text="${error}"></td>
-	        </tr>
-    	</table>
+	<header>
+		<h1>買い物計算アプリ</h1>
+	</header>
 	
-
-		<table class="merchandiseListTable"
-			th:if="${not #lists.isEmpty(merchandiseList.merchandises)}">
-			<thead>
-				<tr>
-					<th>商品名</th>
-					<th>値段</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="merchandise, mStat : *{merchandises}">
-					<td th:text="*{merchandises[__${mStat.index}__].name}"></td>
-					<td th:text="*{merchandises[__${mStat.index}__].price}"></td>
-					<td><button type="submit" name="remove" th:value="${mStat.index}">削除</button></td>
-				</tr>
-			</tbody>
-
-		</table>
-		<p th:text="${sum_price}" class="sum_price"></p>
-		<p th:text="${balance}" class="balance"></p>
-	</form>
+	<main>
+		<section id="grid1">
+			<div>
+			~使い方~
+			１．持っている所持金を入力
+			２．欲しいものの”商品名"と”価格”を入力
+			→自動で計算してくれます
+			</div>
+		</section>
+		<section id="grid2">
+			<form method="post" th:action="@{/home/money_edit}" th:object="${merchandiseList}">
+				
+			<h2>○所持金</h2>
+			<input type="number" name="money" th:field="*{money}">
+			<button type="submit" name="money_edit" id="money_edit">決定</button>
+			<br>
+			<table class="error">
+		        <tr th:if="${ErrorMoney}" th:each="error : ${ErrorMoney}">
+		            <td th:text="${error}"></td>
+		        </tr>
+	    	</table>
+		</form>
+		</section>
+		<section id="grid3">
+			<p th:text="${edit_money}"></p>
+			<p th:text="${money}" class="money"></p>
+			<p th:text="${balance}" class="balance"></p>
+		</section>
+		
+		<section id="grid4">
+			<h2>○商品を追加</h2>
+			<form method="post" th:action="@{/home/edit_merchandiseList}" th:object="${merchandise}">
+				商品名<input type="text" name="name" th:field="*{name}"><br>
+				価格<input type="number" name="price" th:field="*{price}"><br>
+				<button type="submit" name="add" id="add">追加</button>
+				
+				<table class="error">
+			        <tr th:if="${ErrorMerchandise}" th:each="error : ${ErrorMerchandise}">
+			            <td th:text="${error}"></td>
+			        </tr>
+		    	</table>
+	    	
+			</form>
+		</section>
+		
+		<section id="grid5">
+			<h2>○商品リスト</h2>
+			<p th:text="${edit_list}"></p>
+			<form method="post" th:action="@{/home/edit_merchandiseList}" th:object="${merchandiseList}">
+				<table class="merchandiseListTable"
+					th:if="${not #lists.isEmpty(merchandiseList.merchandises)}">
+					<thead>
+						<tr>
+							<th>商品名</th>
+							<th>値段</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="merchandise, mStat : *{merchandises}">
+							<td th:text="*{merchandises[__${mStat.index}__].name}"></td>
+							<td th:text="*{merchandises[__${mStat.index}__].price}"></td>
+							<td><button type="submit" name="remove" th:value="${mStat.index}">削除</button></td>
+							
+						</tr>
+					</tbody>
+				</table>
+				
+				<p th:text="${sum_price}" class="sum_price"></p>
+			</form>
+		</section>
+	</main>
+	<footer>
+		
+	</footer>
+	
 	<script th:src="@{/script.js}" type="text/javascript"></script>
 </body>
 </html>
