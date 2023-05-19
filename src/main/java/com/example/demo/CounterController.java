@@ -24,11 +24,8 @@ public class CounterController {
 	
 	@GetMapping(value = "/home")
 	public String load(@ModelAttribute MerchandiseList ml, @ModelAttribute Merchandise m, Model model, @ModelAttribute("edit_money")String edit_money, @ModelAttribute("edit_list")String edit_list, @ModelAttribute("error")String error) {
-		if(money == 0) {
-			model.addAttribute("money", "所持金を入力してください");
-		}else {
-			model.addAttribute("money", "所持金:" + money + "円です");
-		}
+
+		model.addAttribute("money", money+"円");
 		//所持金の変更ステータスを表示
 		model.addAttribute("edit_money", edit_money);
 		//商品リストの変更ステータスを表示
@@ -44,16 +41,11 @@ public class CounterController {
 			        sumPrice += merchandise.getPrice();
 			    }
 			}
-			model.addAttribute("sum_price","合計金額は" + sumPrice + "円です！");
-			Integer balance = money - sumPrice;
-			if(balance >= 0) {
-				model.addAttribute("balance", "残金は" + balance + "円です！");
-			}else {
-				model.addAttribute("balance", Math.abs(balance) + "円足りません！");
-			}
 			
+			Integer balance = money - sumPrice;
+			model.addAttribute("balance", balance);
 		}
-		
+		model.addAttribute("sum_price",sumPrice+"円");
 		
 		return "home";
 	}
