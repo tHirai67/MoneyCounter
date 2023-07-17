@@ -2,9 +2,6 @@
  * 
  */
 
-
-
-
 document.addEventListener('DOMContentLoaded', function(){
 	var money = document.getElementById('money');
 	var balance = document.getElementById('balance');
